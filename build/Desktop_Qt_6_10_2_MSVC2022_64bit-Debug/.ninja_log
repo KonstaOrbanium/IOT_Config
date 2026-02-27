@@ -1,0 +1,11 @@
+# ninja log v6
+4	401	7939006091188314	IOT_Config_autogen/timestamp	682abde02614873f
+4	401	7939006091188314	IOT_Config_autogen/mocs_compilation.cpp	682abde02614873f
+4	401	7939006091188314	C:/Users/adminchprog/Documents/IOT_Config/build/Desktop_Qt_6_10_2_MSVC2022_64bit-Debug/IOT_Config_autogen/timestamp	682abde02614873f
+4	401	7939006091188314	C:/Users/adminchprog/Documents/IOT_Config/build/Desktop_Qt_6_10_2_MSVC2022_64bit-Debug/IOT_Config_autogen/mocs_compilation.cpp	682abde02614873f
+415	2714	7939006091630502	CMakeFiles/IOT_Config.dir/usbdevice.cpp.obj	765aa62eb28221f3
+410	3079	7939006091590594	CMakeFiles/IOT_Config.dir/main.cpp.obj	76e6e5595a82ede
+412	3451	7939006091610541	CMakeFiles/IOT_Config.dir/mainwindow.cpp.obj	108cf0cb7a814c52
+417	3462	7939006091650443	CMakeFiles/IOT_Config.dir/licensemanager.cpp.obj	bcd41875e15a0b9c
+408	3473	7939006091560672	CMakeFiles/IOT_Config.dir/IOT_Config_autogen/mocs_compilation.cpp.obj	1d270e4024eca22c
+3473	3799	7939006122220226	IOT_Config.exe	6a94ce47be9305dc

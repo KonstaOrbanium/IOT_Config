@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-b687c0f5d095070a7cad.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "IOT_Config",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "IOT_Config::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-IOT_Config-Debug-f748d5ea65ae979bc207.json",
+					"name" : "IOT_Config",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "IOT_Config_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-IOT_Config_autogen-Debug-9987431b0c6dd530b656.json",
+					"name" : "IOT_Config_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "IOT_Config_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-IOT_Config_autogen_timestamp_deps-Debug-91b1dbb5f318a81bdf0f.json",
+					"name" : "IOT_Config_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/adminchprog/Documents/IOT_Config/build/Desktop_Qt_6_10_2_MSVC2022_64bit-Debug",
+		"source" : "C:/Users/adminchprog/Documents/IOT_Config"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
