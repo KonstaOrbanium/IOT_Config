@@ -23,6 +23,10 @@ public:
 
     QString lastError() const;
 
+    QVector<QPair<QString, QString>> getUnusedLicenses() const;
+    bool markLicenseUsed(const QString &uuid);
+    QString getAuthKey(const QString &uuid) const;
+
 signals:
     void errorOccurred(const QString &message);
     void licenseUsed(const QString &licenseNumber);

@@ -26,7 +26,7 @@ bool LicenseManager::load(const QString &filePath)
         return save();
     }
 
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if (!file.open(QIODevice::ReadWrite | QIODevice::Text))
     {
         m_lastError = QString("Не удалось открыть файл: %1").arg(file.errorString());
         emit errorOccurred(m_lastError);
@@ -171,4 +171,99 @@ void LicenseManager::setExecutionNumber(int number)
 QString LicenseManager::lastError() const
 {
     return m_lastError;
+}
+
+bool LicenseManager::markLicenseUsed(const QString &uuid)
+{
+    QString normUuid = uuid.trimmed().toUpper();
+
+    QJsonValue licensesVal = m_jsonRoot.value("licenses");
+    if (!licensesVal.isArray()) return false;
+
+    QJsonArray licenses = licensesVal.toArray();
+    bool found = false;
+
+    for (int i = 0; i < licenses.size(); ++i)
+    {
+        QJsonValue itemVal = licenses[i];
+        if (!itemVal.isObject()) continue;
+
+        QJsonObject item = itemVal.toObject();
+        QString itemUuid = item.value("uuid").toString().trimmed().toUpper();
+
+        if (itemUuid == normUuid)
+        {
+            if (item.value("used").toBool(false) == true)
+            {
+                // уже использована → считаем успехом или возвращаем false — по вкусу
+                return true;
+            }
+
+            item["used"] = true;
+            licenses[i] = item;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) return false;
+
+    m_jsonRoot["licenses"] = licenses;
+
+    emit licenseUsed(normUuid);  // если сигнал нужен
+
+    // save() можно вызвать сразу, а можно снаружи
+    return true;
+}
+
+QVector<QPair<QString, QString>> LicenseManager::getUnusedLicenses() const
+{
+    QVector<QPair<QString, QString>> result;
+
+    QJsonValue licensesVal = m_jsonRoot.value("licenses");
+    if (!licensesVal.isArray()) return result;
+
+    QJsonArray licenses = licensesVal.toArray();
+
+    for (const QJsonValue &v : licenses)
+    {
+        if (!v.isObject()) continue;
+        QJsonObject obj = v.toObject();
+
+        if (obj.value("used").toBool(false) == false)
+        {
+            QString uuid    = obj.value("uuid").toString().trimmed();
+            QString authkey = obj.value("authkey").toString().trimmed();
+
+            if (!uuid.isEmpty() && !authkey.isEmpty())
+            {
+                result.emplaceBack(uuid, authkey);
+            }
+        }
+    }
+
+    return result;
+}
+
+QString LicenseManager::getAuthKey(const QString &uuid) const
+{
+    QString normUuid = uuid.trimmed().toUpper();
+
+    QJsonValue licensesVal = m_jsonRoot.value("licenses");
+    if (!licensesVal.isArray()) return QString();
+
+    QJsonArray licenses = licensesVal.toArray();
+
+    for (const QJsonValue &v : licenses)
+    {
+        if (!v.isObject()) continue;
+        QJsonObject obj = v.toObject();
+
+        if (obj.value("uuid").toString().trimmed().toUpper() == normUuid)
+        {
+            return obj.value("authkey").toString().trimmed();
+        }
+    }
+
+    return QString();
 }

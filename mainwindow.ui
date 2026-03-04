@@ -27,26 +27,8 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="0">
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>180</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>160</width>
-         <height>40</height>
-        </size>
-       </property>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButton_2">
        <property name="styleSheet">
         <string notr="true">QPushButton {
  		background-color: rgb(0, 166, 139);
@@ -65,7 +47,70 @@ QPushButton::pressed {
             };</string>
        </property>
        <property name="text">
-        <string>Проверить связь</string>
+        <string>Подключиться</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="styleSheet">
+        <string notr="true">QPushButton, QComboBox {
+    background-color: rgb(0, 166, 139);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 4px 14px 4px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 36px;          /* чтобы высота была примерно как у кнопок */
+	 text-align: center;
+}
+
+QPushButton:hover, QComboBox:hover {
+    background-color: rgb(0, 190, 139);
+}
+
+QPushButton:pressed {
+    background-color: #3d8b40;
+}
+
+/* Стилизация выпадающего списка (самое важное) */
+QComboBox QAbstractItemView {
+    background-color: rgb(0, 166, 139);
+    color: white;
+    selection-background-color: rgb(0, 190, 139);
+    selection-color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Отступы внутри элементов списка */
+QComboBox QAbstractItemView::item {
+    padding: 8px 12px;
+}
+
+/* Убираем стандартную рамку вокруг выпадающего списка */
+QComboBox QAbstractItemView {
+    outline: none;
+}
+
+QComboBox::down-arrow {
+    background: transparent !important;
+    border-image: none;
+    box-shadow: none;
+}
+/* Поле ввода/текста внутри комбобокса */
+QComboBox {
+    padding-left: 12px;
+    padding-right: 30px;            /* место для стрелки */
+}
+</string>
+       </property>
+       <property name="text">
+        <string>Отключиться</string>
        </property>
       </widget>
      </item>
@@ -224,8 +269,26 @@ QComboBox {
        </item>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="pushButton_2">
+     <item row="2" column="0">
+      <widget class="QPushButton" name="pushButton_4">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>180</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>160</width>
+         <height>40</height>
+        </size>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton {
  		background-color: rgb(0, 166, 139);
@@ -244,70 +307,7 @@ QPushButton::pressed {
             };</string>
        </property>
        <property name="text">
-        <string>Подключиться</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="styleSheet">
-        <string notr="true">QPushButton, QComboBox {
-    background-color: rgb(0, 166, 139);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 4px 14px 4px 10px;
-    font-size: 14px;
-    font-weight: bold;
-    min-height: 36px;          /* чтобы высота была примерно как у кнопок */
-	 text-align: center;
-}
-
-QPushButton:hover, QComboBox:hover {
-    background-color: rgb(0, 190, 139);
-}
-
-QPushButton:pressed {
-    background-color: #3d8b40;
-}
-
-/* Стилизация выпадающего списка (самое важное) */
-QComboBox QAbstractItemView {
-    background-color: rgb(0, 166, 139);
-    color: white;
-    selection-background-color: rgb(0, 190, 139);
-    selection-color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 4px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-/* Отступы внутри элементов списка */
-QComboBox QAbstractItemView::item {
-    padding: 8px 12px;
-}
-
-/* Убираем стандартную рамку вокруг выпадающего списка */
-QComboBox QAbstractItemView {
-    outline: none;
-}
-
-QComboBox::down-arrow {
-    background: transparent !important;
-    border-image: none;
-    box-shadow: none;
-}
-/* Поле ввода/текста внутри комбобокса */
-QComboBox {
-    padding-left: 12px;
-    padding-right: 30px;            /* место для стрелки */
-}
-</string>
-       </property>
-       <property name="text">
-        <string>Отключиться</string>
+        <string>Проверить связь</string>
        </property>
       </widget>
      </item>
