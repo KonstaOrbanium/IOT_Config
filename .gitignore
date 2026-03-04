@@ -1,36 +1,21 @@
-# Prerequisites
-*.d
+# Build folders
+build/
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# Qt Creator
+*.user
+*.autosave
+*.pro.user
+.qtc_clangd/
+.qtcreator/
 
-# Precompiled Headers
-*.gch
-*.pch
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+build.ninja
+.ninja_*
+*_autogen/
+compile_commands.json
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-/Debug/
-/.settings/
-/SIKVEL-IP-Debug.launch
-/Release/
+# Testing
+Testing/
