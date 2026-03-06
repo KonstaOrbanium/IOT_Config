@@ -35,48 +35,81 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnActivateLicense_clicked()
 {
-    QString path = QFileDialog::getOpenFileName(this, "Выберите файл лицензий", QDir::homePath(), "JSON (*.json);;Все файлы (*.*)");
-    if (path.isEmpty()) return;
+    // 1. Выбор файла
+    QString path = QFileDialog::getOpenFileName(
+        this,
+        "Выберите файл лицензий",
+        QDir::homePath(),
+        "JSON файлы (*.json);;Все файлы (*.*)"
+        );
 
-    if (!m_licenseManager->load(path)) {
-        QMessageBox::warning(this, "Ошибка", m_licenseManager->lastError());
+    if (path.isEmpty()) {
+        ui->statusbar->showMessage("Выбор отменён", 4000);
         return;
     }
 
+    // 2. Загрузка файла
+    if (!m_licenseManager->load(path)) {
+        QMessageBox::critical(this, "Ошибка",
+                              "Не удалось прочитать файл:\n" + m_licenseManager->lastError());
+        return;
+    }
+
+    // Запоминаем путь
     QSettings settings("MyCompany", "LicenseApp");
     settings.setValue("lastLicenseFile", path);
 
-    // Получаем все неиспользованные лицензии
+    ui->textEdit->setText("Загружен: " + QFileInfo(path).fileName());
+    ui->statusbar->showMessage("Поиск первой свободной лицензии...");
+
+    // 3. Получаем первую неиспользованную лицензию
     auto unused = m_licenseManager->getUnusedLicenses();
 
     if (unused.isEmpty()) {
-        ui->textEdit->setText("Нет доступных лицензий");
-        QMessageBox::information(this, "Инфо", "В файле нет неактивированных лицензий");
+        ui->textEdit->setText("Нет свободных лицензий");
+        QMessageBox::information(this, "Информация", "В файле нет неактивированных лицензий");
         return;
     }
 
-    int success = 0;
-    QStringList log;
+    // Берём самую первую
+    auto [uuid, authkey] = unused.first();
 
-    for (const auto &[uuid, authkey] : unused) {
-        QString payload = QString("LIC:%1|%2\n").arg(uuid, authkey);
+    ui->textEdit->setText("Найдена лицензия: " + uuid.left(8) + "...");
+    ui->statusbar->showMessage("Отправка лицензии " + uuid.left(12) + "...");
 
-        if (m_usb->sendCommandWaitResponse(payload, 3000)) {
-            m_licenseManager->markLicenseUsed(uuid);
-            success++;
-            log << QString("OK → %1").arg(uuid);
-        }
-        else {
-            log << QString("FAIL → %1 : %2").arg(uuid, m_usb->lastError());
-        }
+    // 4. Формируем строку для отправки
+    QString payload = QString("LIC:%1|%2\n").arg(uuid, authkey);
+    // Если нужен другой формат — измени здесь, например:
+    // QString payload = QString("UUID:%1 AUTHKEY:%2\n").arg(uuid, authkey);
+    // или QString payload = QJsonDocument(QJsonObject{{"uuid", uuid}, {"authkey", authkey}}).toJson() + "\n";
+
+    // 5. Отправляем по USB
+    if (!m_usb->sendCommandWaitResponse(payload, 3000)) {
+        QMessageBox::warning(this, "Ошибка связи",
+                             "Не удалось отправить лицензию:\n" + m_usb->lastError());
+        ui->statusbar->showMessage("Ошибка отправки", 5000);
+        return;
     }
 
-    m_licenseManager->save();
+    // 6. Отмечаем как использованную
+    if (!m_licenseManager->markLicenseUsed(uuid)) {
+        QMessageBox::warning(this, "Ошибка",
+                             "Не удалось отметить лицензию как использованную");
+        return;
+    }
 
-    ui->textEdit->setText(QString("Активировано %1 из %2").arg(success).arg(unused.size()));
-    ui->textEdit->append(log.join("\n"));
+    // 7. Сохраняем файл
+    if (!m_licenseManager->save()) {
+        QMessageBox::warning(this, "Ошибка сохранения",
+                             "Лицензия отправлена, но файл не сохранён:\n" +
+                                 m_licenseManager->lastError());
+    }
 
-    QMessageBox::information(this, "Результат", QString("Успешно: %1\nВсего попыток: %2").arg(success).arg(unused.size()));
+    ui->textEdit->setText("Активирована: " + uuid.left(12) + "...");
+    ui->statusbar->showMessage("Лицензия успешно активирована", 6000);
+    QMessageBox::information(this, "Успех",
+                             QString("Лицензия активирована:\nUUID: %1\nAuthKey: %2")
+                                 .arg(uuid, authkey));
 }
 
 void MainWindow::on_btnSendExec_clicked() {
