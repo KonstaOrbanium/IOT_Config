@@ -24,6 +24,7 @@ private slots:
     void on_btnActivateLicense_clicked();
     void on_btnSendExec_clicked();
     void onLicenseUsed(const QString &licenseNumber);
+    bool onBtnConnect();
 
 private:
     Ui::MainWindow *ui;

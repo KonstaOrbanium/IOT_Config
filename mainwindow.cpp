@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_licenseManager, &LicenseManager::licenseUsed, this, &MainWindow::onLicenseUsed);
     connect(this->ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_btnActivateLicense_clicked);
+    connect(this->ui->pushButton_2, &QPushButton::clicked, this, &MainWindow::onBtnConnect);
 }
 
 MainWindow::~MainWindow()
@@ -119,4 +120,14 @@ void MainWindow::on_btnSendExec_clicked() {
 
 void MainWindow::onLicenseUsed(const QString &licenseNumber) {
 
+}
+
+bool MainWindow::onBtnConnect() {
+    bool result = false;
+    QString portName = "usbName";
+    if (!this->m_usb->connect(portName, 115200)) {
+        return result;
+    }
+    result = true;
+    return result;
 }
